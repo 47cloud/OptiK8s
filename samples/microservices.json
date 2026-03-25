@@ -1,0 +1,74 @@
+[
+  {
+    "name": "svc-1",
+    "architecture": "microservice",
+    "load_profile": "normal",
+    "cpu_requested": 91,
+    "cpu_used": 28.1,
+    "memory_requested": 284.7,
+    "memory_used": 112.1
+  },
+  {
+    "name": "svc-2",
+    "architecture": "microservice",
+    "load_profile": "normal",
+    "cpu_requested": 104,
+    "cpu_used": 36.6,
+    "memory_requested": 317.6,
+    "memory_used": 128.2
+  },
+  {
+    "name": "svc-3",
+    "architecture": "microservice",
+    "load_profile": "normal",
+    "cpu_requested": 176,
+    "cpu_used": 26.5,
+    "memory_requested": 139.5,
+    "memory_used": 50.4
+  },
+  {
+    "name": "svc-4",
+    "architecture": "microservice",
+    "load_profile": "normal",
+    "cpu_requested": 196,
+    "cpu_used": 68.3,
+    "memory_requested": 86.2,
+    "memory_used": 27.6
+  },
+  {
+    "name": "svc-5",
+    "architecture": "microservice",
+    "load_profile": "normal",
+    "cpu_requested": 108,
+    "cpu_used": 43.1,
+    "memory_requested": 77.5,
+    "memory_used": 36.5
+  },
+  {
+    "name": "api-1",
+    "architecture": "backend-api",
+    "load_profile": "high",
+    "cpu_requested": 450,
+    "cpu_used": 275.4,
+    "memory_requested": 364.5,
+    "memory_used": 266.9
+  },
+  {
+    "name": "api-2",
+    "architecture": "backend-api",
+    "load_profile": "high",
+    "cpu_requested": 299,
+    "cpu_used": 279.0,
+    "memory_requested": 172.5,
+    "memory_used": 128.0
+  },
+  {
+    "name": "redis-1",
+    "architecture": "cache",
+    "load_profile": "normal",
+    "cpu_requested": 65,
+    "cpu_used": 2.7,
+    "memory_requested": 860.5,
+    "memory_used": 583.7
+  }
+]

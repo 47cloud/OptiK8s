@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-api
+  labels:
+    app: python-api
+    tier: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: python-api
+  template:
+    metadata:
+      labels:
+        app: python-api
+        tier: backend
+    spec:
+      containers:
+        - name: python-api
+          image: python:3.12-slim
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              pip install --quiet fastapi uvicorn && \
+              python -c "
+              import os, socket, time
+              from fastapi import FastAPI
+              import uvicorn
+
+              app = FastAPI(title='whatwillaido Python API')
+
+              @app.get('/')
+              def root():
+                  return {
+                      'service': 'python-api',
+                      'hostname': socket.gethostname(),
+                      'uptime_s': round(time.process_time(), 2),
+                      'message': 'whatwillaido sample app',
+                  }
+
+              @app.get('/health')
+              def health():
+                  return {'status': 'ok'}
+
+              uvicorn.run(app, host='0.0.0.0', port=8000)
+              "
+          ports:
+            - containerPort: 8000
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 30
+            periodSeconds: 10

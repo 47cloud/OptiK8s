@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-web
+  labels:
+    app: nodejs-web
+    tier: frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nodejs-web
+  template:
+    metadata:
+      labels:
+        app: nodejs-web
+        tier: frontend
+    spec:
+      containers:
+        - name: nodejs-web
+          image: node:20-alpine
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              node -e "
+              const http = require('http');
+              const os   = require('os');
+              const server = http.createServer((req, res) => {
+                res.writeHead(200, {'Content-Type':'text/html'});
+                res.end('<html><body style=\"font-family:sans-serif;padding:2rem\">'
+                  + '<h1>&#127758; Node.js Web Server</h1>'
+                  + '<p>Hostname: <strong>' + os.hostname() + '</strong></p>'
+                  + '<p>Uptime: ' + Math.floor(process.uptime()) + 's</p>'
+                  + '<p style=\"color:#888\">whatwillaido sample app</p>'
+                  + '</body></html>');
+              });
+              server.listen(3000, () => console.log('Listening on :3000'));
+              "
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "250m"
+              memory: "128Mi"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10

@@ -1,0 +1,92 @@
+[
+  {
+    "name": "gateway-1",
+    "architecture": "microservice",
+    "load_profile": "idle",
+    "cpu_requested": 115,
+    "cpu_used": 7.0,
+    "memory_requested": 283.3,
+    "memory_used": 64.4
+  },
+  {
+    "name": "gateway-2",
+    "architecture": "microservice",
+    "load_profile": "idle",
+    "cpu_requested": 96,
+    "cpu_used": 2.8,
+    "memory_requested": 137.8,
+    "memory_used": 18.4
+  },
+  {
+    "name": "gateway-3",
+    "architecture": "microservice",
+    "load_profile": "idle",
+    "cpu_requested": 234,
+    "cpu_used": 12.1,
+    "memory_requested": 105.7,
+    "memory_used": 14.0
+  },
+  {
+    "name": "gateway-4",
+    "architecture": "microservice",
+    "load_profile": "idle",
+    "cpu_requested": 124,
+    "cpu_used": 8.7,
+    "memory_requested": 202.1,
+    "memory_used": 38.7
+  },
+  {
+    "name": "app-svc-1",
+    "architecture": "backend-api",
+    "load_profile": "normal",
+    "cpu_requested": 106,
+    "cpu_used": 25.9,
+    "memory_requested": 233.9,
+    "memory_used": 143.0
+  },
+  {
+    "name": "app-svc-2",
+    "architecture": "backend-api",
+    "load_profile": "normal",
+    "cpu_requested": 424,
+    "cpu_used": 189.9,
+    "memory_requested": 437.5,
+    "memory_used": 250.9
+  },
+  {
+    "name": "app-svc-3",
+    "architecture": "backend-api",
+    "load_profile": "normal",
+    "cpu_requested": 480,
+    "cpu_used": 133.0,
+    "memory_requested": 432.8,
+    "memory_used": 261.8
+  },
+  {
+    "name": "worker-1",
+    "architecture": "worker",
+    "load_profile": "idle",
+    "cpu_requested": 246,
+    "cpu_used": 13.2,
+    "memory_requested": 417.9,
+    "memory_used": 89.6
+  },
+  {
+    "name": "worker-2",
+    "architecture": "worker",
+    "load_profile": "idle",
+    "cpu_requested": 209,
+    "cpu_used": 8.1,
+    "memory_requested": 293.1,
+    "memory_used": 49.1
+  },
+  {
+    "name": "db-1",
+    "architecture": "database",
+    "load_profile": "normal",
+    "cpu_requested": 346,
+    "cpu_used": 102.8,
+    "memory_requested": 1738.1,
+    "memory_used": 1256.2
+  }
+]

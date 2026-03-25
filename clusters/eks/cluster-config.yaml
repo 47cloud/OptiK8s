@@ -1,0 +1,57 @@
+# eksctl ClusterConfig for whatwillaido on AWS EKS.
+#
+# Creates a managed 2-node cluster (t3.medium) in us-east-1 with:
+#   - Private node group
+#   - Cluster logging enabled
+#   - OIDC enabled (required for IAM roles for service accounts)
+#
+# Usage:
+#   eksctl create cluster -f clusters/eks/cluster-config.yaml
+#
+# Customise the name, region, and nodeGroups to suit your needs.
+# See https://eksctl.io/usage/schema/ for full schema reference.
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: whatwillaido
+  region: us-east-1
+  version: "1.29"
+  tags:
+    project: whatwillaido
+    managed-by: eksctl
+
+# Enable IAM OIDC provider (required for IRSA / service account roles)
+iam:
+  withOIDC: true
+
+# Cluster-level logging
+cloudWatch:
+  clusterLogging:
+    enableTypes:
+      - api
+      - audit
+      - authenticator
+      - controllerManager
+      - scheduler
+
+managedNodeGroups:
+  - name: ng-general
+    instanceType: t3.medium
+    minSize: 1
+    desiredCapacity: 2
+    maxSize: 4
+    # Use private subnets – EKS will create its own VPC
+    privateNetworking: true
+    labels:
+      role: worker
+    tags:
+      nodegroup-role: worker
+    iam:
+      withAddonPolicies:
+        # Allow nodes to pull images from ECR
+        imageBuilder: true
+        # Allow the AWS Load Balancer Controller
+        awsLoadBalancerController: true
+        # CloudWatch container insights
+        cloudWatch: true

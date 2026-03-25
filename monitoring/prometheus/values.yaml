@@ -1,0 +1,73 @@
+# Helm values for kube-prometheus-stack
+# https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
+#
+# Installs:
+#   - Prometheus   (metrics collection & storage)
+#   - Grafana      (dashboards: CPU, memory, pod metrics)
+#   - node-exporter (per-node CPU / memory / disk metrics)
+#   - kube-state-metrics (Kubernetes object state metrics)
+
+prometheus:
+  prometheusSpec:
+    # Pick up ALL ServiceMonitors and PodMonitors regardless of namespace labels
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+    scrapeInterval: "15s"
+    evaluationInterval: "15s"
+    resources:
+      requests:
+        cpu: "200m"
+        memory: "256Mi"
+      limits:
+        cpu: "500m"
+        memory: "512Mi"
+    # Scrape any pod annotated with prometheus.io/scrape: "true"
+    additionalScrapeConfigs:
+      - job_name: kubernetes-pods
+        kubernetes_sd_configs:
+          - role: pod
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+            action: keep
+            regex: "true"
+          - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+            action: replace
+            target_label: __metrics_path__
+            regex: (.+)
+          - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+            action: replace
+            regex: ([^:]+)(?::\d+)?;(\d+)
+            replacement: $1:$2
+            target_label: __address__
+          - action: labelmap
+            regex: __meta_kubernetes_pod_label_(.+)
+          - source_labels: [__meta_kubernetes_namespace]
+            action: replace
+            target_label: kubernetes_namespace
+          - source_labels: [__meta_kubernetes_pod_name]
+            action: replace
+            target_label: kubernetes_pod_name
+
+grafana:
+  enabled: true
+  # Set adminPassword via the GRAFANA_ADMIN_PASSWORD environment variable or a
+  # Kubernetes secret rather than hard-coding a value here.
+  # Example: --set grafana.adminPassword="$(openssl rand -base64 24)"
+  # adminPassword: ""  # unset — Grafana falls back to a random generated password
+  defaultDashboardsEnabled: true
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+    limits:
+      cpu: "200m"
+      memory: "256Mi"
+
+alertmanager:
+  enabled: false
+
+nodeExporter:
+  enabled: true
+
+kube-state-metrics:
+  enabled: true

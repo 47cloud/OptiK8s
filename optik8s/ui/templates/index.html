@@ -1,0 +1,221 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row g-4">
+
+  <!-- ════════════════════════════════════════════════════════════════════════
+       LEFT COLUMN – Clusters
+  ═══════════════════════════════════════════════════════════════════════════ -->
+  <div class="col-lg-5">
+
+    <!-- ── Tool versions ───────────────────────────────────────────────── -->
+    <div class="card bg-secondary bg-opacity-10 border-secondary mb-4">
+      <div class="card-header d-flex align-items-center gap-2">
+        <i class="bi bi-tools text-info"></i>
+        <span class="fw-semibold">CLI Tool Status</span>
+      </div>
+      <div class="card-body p-0">
+        <table class="table table-sm table-borderless table-hover mb-0 align-middle">
+          <tbody>
+          {% for tool, ver in versions.items() %}
+          <tr>
+            <td class="ps-3 text-muted small fw-semibold" style="width:6rem">{{ tool }}</td>
+            <td class="small {% if ver == 'not found' %}text-danger{% else %}text-success{% endif %}">
+              {% if ver == 'not found' %}
+                <i class="bi bi-x-circle-fill me-1"></i>not installed
+              {% else %}
+                <i class="bi bi-check-circle-fill me-1"></i>{{ ver }}
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── Existing Clusters ────────────────────────────────────────────── -->
+    <div class="card bg-secondary bg-opacity-10 border-secondary mb-4">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span class="fw-semibold"><i class="bi bi-server text-info me-2"></i>Clusters</span>
+        <button class="btn btn-sm btn-outline-secondary" onclick="refreshClusters()">
+          <i class="bi bi-arrow-clockwise"></i>
+        </button>
+      </div>
+      <div class="card-body" id="clusterList">
+        {% set all_clusters = clusters.kind + clusters.eks %}
+        {% if not all_clusters %}
+          <p class="text-muted small mb-0"><i class="bi bi-info-circle me-1"></i>No clusters found.</p>
+        {% else %}
+          {% for name in clusters.kind %}
+          <div class="d-flex align-items-center justify-content-between mb-2 cluster-row">
+            <div>
+              <span class="badge bg-primary me-2">KIND</span>
+              <span class="fw-semibold">{{ name }}</span>
+              {% if ("kind-" + name) == current_ctx or name == current_ctx %}
+                <span class="badge bg-success ms-2">active</span>
+              {% endif %}
+            </div>
+            <div class="btn-group btn-group-sm">
+              <button class="btn btn-outline-info" title="Set as active context"
+                onclick="useCluster('kind','{{ name }}')">
+                <i class="bi bi-arrow-right-circle"></i>
+              </button>
+              <button class="btn btn-outline-danger" title="Delete cluster"
+                onclick="deleteCluster('kind','{{ name }}')">
+                <i class="bi bi-trash3"></i>
+              </button>
+            </div>
+          </div>
+          {% endfor %}
+          {% for name in clusters.eks %}
+          <div class="d-flex align-items-center justify-content-between mb-2 cluster-row">
+            <div>
+              <span class="badge bg-warning text-dark me-2">EKS</span>
+              <span class="fw-semibold">{{ name }}</span>
+              {% if name in current_ctx %}
+                <span class="badge bg-success ms-2">active</span>
+              {% endif %}
+            </div>
+            <div class="btn-group btn-group-sm">
+              <button class="btn btn-outline-info" title="Set as active context"
+                onclick="useCluster('eks','{{ name }}')">
+                <i class="bi bi-arrow-right-circle"></i>
+              </button>
+              <button class="btn btn-outline-danger" title="Delete cluster"
+                onclick="deleteCluster('eks','{{ name }}')">
+                <i class="bi bi-trash3"></i>
+              </button>
+            </div>
+          </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- ── Create Cluster ───────────────────────────────────────────────── -->
+    <div class="card bg-secondary bg-opacity-10 border-secondary mb-4">
+      <div class="card-header fw-semibold">
+        <i class="bi bi-plus-circle text-success me-2"></i>Create Cluster
+      </div>
+      <div class="card-body">
+        <div class="mb-3">
+          <label class="form-label small text-muted">Provider</label>
+          <div class="d-flex gap-3">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="createProvider" id="provKind" value="kind" checked />
+              <label class="form-check-label" for="provKind">
+                <span class="badge bg-primary">KIND</span> Local
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="createProvider" id="provEks" value="eks" />
+              <label class="form-check-label" for="provEks">
+                <span class="badge bg-warning text-dark">EKS</span> AWS
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label small text-muted">Cluster Name</label>
+          <input type="text" class="form-control form-control-sm" id="createName" value="optik8s" />
+        </div>
+
+        <div id="eksOptions" class="d-none mb-3">
+          <label class="form-label small text-muted">AWS Region</label>
+          <input type="text" class="form-control form-control-sm" id="createRegion" value="us-east-1" />
+        </div>
+
+        <button class="btn btn-success w-100" onclick="createCluster()">
+          <i class="bi bi-play-circle me-1"></i> Create
+        </button>
+      </div>
+    </div>
+
+    <!-- ── Nodes ────────────────────────────────────────────────────────── -->
+    <div class="card bg-secondary bg-opacity-10 border-secondary">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span class="fw-semibold"><i class="bi bi-diagram-3 text-info me-2"></i>Nodes</span>
+        <button class="btn btn-sm btn-outline-secondary" onclick="refreshNodes()">
+          <i class="bi bi-arrow-clockwise"></i>
+        </button>
+      </div>
+      <div class="card-body" id="nodeList">
+        <p class="text-muted small mb-0">Click refresh to load nodes.</p>
+      </div>
+    </div>
+
+  </div><!-- /col left -->
+
+
+  <!-- ════════════════════════════════════════════════════════════════════════
+       RIGHT COLUMN – Apps
+  ═══════════════════════════════════════════════════════════════════════════ -->
+  <div class="col-lg-7">
+
+    <!-- ── Context selector ─────────────────────────────────────────────── -->
+    <div class="card bg-secondary bg-opacity-10 border-secondary mb-4">
+      <div class="card-body py-2">
+        <div class="row align-items-center g-2">
+          <div class="col-auto text-muted small">Target context:</div>
+          <div class="col">
+            <select class="form-select form-select-sm" id="targetCtx">
+              <option value="">— current ({{ current_ctx or 'none' }}) —</option>
+              {% for ctx in contexts %}
+              <option value="{{ ctx }}" {% if ctx == current_ctx %}selected{% endif %}>{{ ctx }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-sm btn-outline-info" onclick="loadAppStatuses()">
+              <i class="bi bi-arrow-clockwise me-1"></i>Refresh status
+            </button>
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-sm btn-success" onclick="deployAll()">
+              <i class="bi bi-cloud-upload me-1"></i>Deploy all
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── App cards ────────────────────────────────────────────────────── -->
+    <div class="row g-3" id="appGrid">
+      {% for key, info in apps.items() %}
+      <div class="col-md-6" id="card-{{ key }}">
+        <div class="card h-100 app-card border-secondary bg-secondary bg-opacity-10">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <h6 class="card-title mb-0 fw-semibold">{{ info.name }}</h6>
+              <span class="badge category-{{ info.category | default('other') }}">{{ info.category | default('other') }}</span>
+            </div>
+            <p class="card-text small text-muted mb-2">{{ info.description }}</p>
+            <div class="d-flex flex-wrap gap-1 mb-3">
+              {% for t in info.tech %}
+              <span class="badge bg-secondary border border-secondary text-light">{{ t }}</span>
+              {% endfor %}
+              <span class="badge bg-dark border border-secondary text-muted ms-auto">:{{ info.port }}</span>
+            </div>
+            <div class="d-flex gap-2 status-row" id="status-{{ key }}">
+              <span class="badge bg-secondary status-badge">unknown</span>
+            </div>
+          </div>
+          <div class="card-footer bg-transparent border-secondary d-flex gap-2">
+            <button class="btn btn-sm btn-outline-success flex-fill" onclick="deployApp('{{ key }}')">
+              <i class="bi bi-cloud-upload me-1"></i>Deploy
+            </button>
+            <button class="btn btn-sm btn-outline-danger flex-fill" onclick="removeApp('{{ key }}')">
+              <i class="bi bi-trash3 me-1"></i>Remove
+            </button>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div><!-- /appGrid -->
+
+  </div><!-- /col right -->
+</div><!-- /row -->
+
+{% endblock %}

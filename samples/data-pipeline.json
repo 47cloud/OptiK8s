@@ -1,0 +1,56 @@
+[
+  {
+    "name": "ingest-1",
+    "architecture": "worker",
+    "load_profile": "idle",
+    "cpu_requested": 127,
+    "cpu_used": 3.7,
+    "memory_requested": 493.0,
+    "memory_used": 128.6
+  },
+  {
+    "name": "ingest-2",
+    "architecture": "worker",
+    "load_profile": "idle",
+    "cpu_requested": 352,
+    "cpu_used": 13.4,
+    "memory_requested": 414.9,
+    "memory_used": 84.1
+  },
+  {
+    "name": "ingest-3",
+    "architecture": "worker",
+    "load_profile": "idle",
+    "cpu_requested": 317,
+    "cpu_used": 18.9,
+    "memory_requested": 498.8,
+    "memory_used": 115.3
+  },
+  {
+    "name": "etl-1",
+    "architecture": "batch",
+    "load_profile": "idle",
+    "cpu_requested": 510,
+    "cpu_used": 16.1,
+    "memory_requested": 983.1,
+    "memory_used": 91.3
+  },
+  {
+    "name": "etl-2",
+    "architecture": "batch",
+    "load_profile": "idle",
+    "cpu_requested": 627,
+    "cpu_used": 18.2,
+    "memory_requested": 1386.7,
+    "memory_used": 75.0
+  },
+  {
+    "name": "model-1",
+    "architecture": "ml-inference",
+    "load_profile": "idle",
+    "cpu_requested": 846,
+    "cpu_used": 32.6,
+    "memory_requested": 6082.9,
+    "memory_used": 4315.7
+  }
+]

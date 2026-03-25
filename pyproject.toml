@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "optik8s"
+version = "0.1.0"
+description = "Spin up KIND/EKS Kubernetes clusters and deploy sample workloads via CLI or Web UI"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+dependencies = [
+    "click>=8.1",
+    "flask>=3.0",
+    "rich>=13.0",
+    "pyyaml>=6.0",
+]
+
+[project.scripts]
+optik8s = "optik8s.cli.main:cli"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["optik8s*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

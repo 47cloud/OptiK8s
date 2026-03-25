@@ -1,0 +1,83 @@
+[
+  {
+    "name": "web-1",
+    "architecture": "frontend",
+    "load_profile": "high",
+    "cpu_requested": 111,
+    "cpu_used": 61.5,
+    "memory_requested": 102.4,
+    "memory_used": 67.8
+  },
+  {
+    "name": "web-2",
+    "architecture": "frontend",
+    "load_profile": "high",
+    "cpu_requested": 164,
+    "cpu_used": 100.8,
+    "memory_requested": 112.2,
+    "memory_used": 86.5
+  },
+  {
+    "name": "web-3",
+    "architecture": "frontend",
+    "load_profile": "high",
+    "cpu_requested": 131,
+    "cpu_used": 84.7,
+    "memory_requested": 244.2,
+    "memory_used": 172.3
+  },
+  {
+    "name": "api-1",
+    "architecture": "backend-api",
+    "load_profile": "high",
+    "cpu_requested": 345,
+    "cpu_used": 315.9,
+    "memory_requested": 211.2,
+    "memory_used": 157.0
+  },
+  {
+    "name": "api-2",
+    "architecture": "backend-api",
+    "load_profile": "high",
+    "cpu_requested": 255,
+    "cpu_used": 166.6,
+    "memory_requested": 390.0,
+    "memory_used": 317.9
+  },
+  {
+    "name": "api-3",
+    "architecture": "backend-api",
+    "load_profile": "high",
+    "cpu_requested": 440,
+    "cpu_used": 409.8,
+    "memory_requested": 258.1,
+    "memory_used": 201.9
+  },
+  {
+    "name": "db-1",
+    "architecture": "database",
+    "load_profile": "high",
+    "cpu_requested": 332,
+    "cpu_used": 186.3,
+    "memory_requested": 1232.4,
+    "memory_used": 990.7
+  },
+  {
+    "name": "worker-1",
+    "architecture": "worker",
+    "load_profile": "high",
+    "cpu_requested": 102,
+    "cpu_used": 96.6,
+    "memory_requested": 206.2,
+    "memory_used": 151.3
+  },
+  {
+    "name": "worker-2",
+    "architecture": "worker",
+    "load_profile": "high",
+    "cpu_requested": 239,
+    "cpu_used": 203.5,
+    "memory_requested": 473.7,
+    "memory_used": 399.9
+  }
+]

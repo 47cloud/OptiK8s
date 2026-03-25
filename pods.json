@@ -1,0 +1,23 @@
+[
+    {
+      "name": "auth-service",
+      "cpu_requested": 500,
+      "cpu_used": 90,
+      "memory_requested": 512,
+      "memory_used": 140
+    },
+    {
+      "name": "payment-service",
+      "cpu_requested": 1000,
+      "cpu_used": 850,
+      "memory_requested": 1024,
+      "memory_used": 900
+    },
+    {
+      "name": "worker",
+      "cpu_requested": 300,
+      "cpu_used": 50,
+      "memory_requested": 256,
+      "memory_used": 80
+    }
+  ]

@@ -1,0 +1,65 @@
+[
+  {
+    "name": "storefront-1",
+    "architecture": "frontend",
+    "load_profile": "idle",
+    "cpu_requested": 146,
+    "cpu_used": 5.3,
+    "memory_requested": 68.8,
+    "memory_used": 12.6
+  },
+  {
+    "name": "storefront-2",
+    "architecture": "frontend",
+    "load_profile": "idle",
+    "cpu_requested": 160,
+    "cpu_used": 11.8,
+    "memory_requested": 193.9,
+    "memory_used": 31.6
+  },
+  {
+    "name": "storefront-3",
+    "architecture": "frontend",
+    "load_profile": "idle",
+    "cpu_requested": 113,
+    "cpu_used": 3.7,
+    "memory_requested": 69.7,
+    "memory_used": 15.7
+  },
+  {
+    "name": "product-api-1",
+    "architecture": "backend-api",
+    "load_profile": "idle",
+    "cpu_requested": 111,
+    "cpu_used": 8.4,
+    "memory_requested": 204.4,
+    "memory_used": 63.2
+  },
+  {
+    "name": "product-api-2",
+    "architecture": "backend-api",
+    "load_profile": "idle",
+    "cpu_requested": 188,
+    "cpu_used": 16.3,
+    "memory_requested": 354.3,
+    "memory_used": 71.3
+  },
+  {
+    "name": "postgres-1",
+    "architecture": "database",
+    "load_profile": "normal",
+    "cpu_requested": 342,
+    "cpu_used": 57.5,
+    "memory_requested": 1584.3,
+    "memory_used": 932.9
+  },
+  {
+    "name": "redis-1",
+    "architecture": "cache",
+    "load_profile": "normal",
+    "cpu_requested": 146,
+    "cpu_used": 5.6,
+    "memory_requested": 429.6,
+    "memory_used": 184.3
+  }
+]
