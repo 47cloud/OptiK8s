@@ -107,7 +107,7 @@ Run `optik8s tools` to check which tools are detected.
 
 ```bash
 # Clone the repo
-git clone https://github.com/47cloud/whatwillaido.git
+git clone https://github.com/47cloud/OptiK8s.git
 cd optik8s
 
 # Install (creates the `optik8s` command)
